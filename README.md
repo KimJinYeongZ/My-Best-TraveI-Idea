@@ -1,27 +1,30 @@
-# React + TypeScript + Vite
+My Best Travel Idea (MBTI) 🛫
+intro
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+chatGPT를 이용한 여행지 추천 서비스 MBTI 입니다.
 
-Currently, two official plugins are available:
+🛫 서비스 소개
+goal 함께 여행을 떠나는 친구들의 성향을 고려하여 여행지를 추천해드립니다!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+survey 여행에 대한 취향을 파악하기 위해 간단한 설문을 진행합니다.
 
-## Expanding the ESLint configuration
+chat 채팅방에 입장하여 친구들과 여행에 관한 이야기를 나누면 대화 내용을 기반으로 여행지를 추천해드립니다.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+🛠 기술 스택
+skill
 
-- Configure the top-level `parserOptions` property like this:
+👤 서비스 요청 흐름도
+service
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+👨‍👩‍👧‍👦 팀원 소개
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+FE 🖥
+안호균	
+FE 🖥
+김진영	
+BE 💾
+김종준	
+BE 💾
+문영상	
+BE 💾
+나제법
