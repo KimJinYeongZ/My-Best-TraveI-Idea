@@ -2,6 +2,7 @@ My Best Travel Idea (MBTI) 🛫
 intro
 
 chatGPT를 이용한 여행지 추천 서비스 MBTI 입니다.
+![285633077-6d2c91c2-601a-4c10-bf4a-96b38b1ffb35](https://github.com/KimJinYoungZ/MyBestTripIdea/assets/137619133/5c44e198-f099-402a-8d03-9428ac7f0b6a)
 
 🛫 서비스 소개
 goal 함께 여행을 떠나는 친구들의 성향을 고려하여 여행지를 추천해드립니다!
