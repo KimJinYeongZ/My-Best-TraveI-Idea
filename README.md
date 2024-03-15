@@ -40,7 +40,7 @@ chatGPT를 이용한 여행지 추천 서비스 MBTI 입니다.
   </td>
 
   <td align=center>
-  <a href="https://github.com/KimJinYoungZ">
+  <a href="https://github.com/KimJinYeongZ">
   <img src="https://github.com/Moon-1C/mbti/assets/89574219/f097e62d-3339-4b81-a4a3-4a82ea39971c" width="100px" height="100px" />
   <br/>
   FE 🖥
