@@ -9,11 +9,12 @@ import react, { useState } from "react";
 //왼쪽 오른쪽 나눠서 currentUser 확인 후 배치
 type BubbleProps = {
   isCurrentUser: boolean;
+  isGPTMessage: boolean;
 };
 const Bubble = styled.div<BubbleProps>`
   padding: 10px;
   border-radius: 20px;
-  background-color: white;
+  background-color: ${(props) => props.isGPTMessage ? "#E0E0E0" : "white"}; // GPT 메시지에 대한 배경색 변경
 `;
 
 // 이름 및 채팅 내용
@@ -23,7 +24,7 @@ const ChatBubble = styled.div<BubbleProps>`
   max-width: 430px;
   margin: 10px;
   align-self: ${(props) => (props.isCurrentUser ? "flex-end" : "flex-start")};
-  color: black;
+  color: ${(props) => props.isGPTMessage ? "#333" : "black"}; // GPT 메시지에 대한 텍스트 색상 변경
 `;
 
 // 유저 이름
@@ -47,7 +48,7 @@ const Photo = styled.img`
   border-radius: 15px;
 `;
 
-const DeleteButton = styled.button`
+/*const DeleteButton = styled.button`
   background-color: tomato;
   color: white;
   font-weight: 600;
@@ -57,7 +58,7 @@ const DeleteButton = styled.button`
   text-transform: uppercase;
   border-radius: 5px;
   cursor: pointer;
-`;
+`;*/
 //추후 사용예정
 
 //출력된 사진 눌렀을 때 확대하기 위한 모달
@@ -97,6 +98,7 @@ export default function Message({
   userId,
   id,
   time,
+  chatRoomId,
 }: IMessage) {
   const user = auth.currentUser;
   const [showModal, setShowModal] = useState(false);
@@ -132,10 +134,11 @@ export default function Message({
   )}:${String(timestampToDate?.getMinutes()).padStart(2, "0")}`;
 
   const isCurrentUser = user?.uid === userId;
+  const isGPTMessage = userId === '1'; // GPT 메시지 확인
   return (
     <>
-      <ChatBubble isCurrentUser={isCurrentUser}>
-        <Username isCurrentUser={isCurrentUser}>{username}</Username>
+      <ChatBubble isCurrentUser={isCurrentUser} isGPTMessage={isGPTMessage}>
+        <Username isCurrentUser={isCurrentUser} isGPTMessage={isGPTMessage}>{username}</Username>
         {photo && (
           <Photo
             src={photo}
@@ -143,41 +146,41 @@ export default function Message({
             onClick={handleShowModal} // 사진 클릭 이벤트 핸들러를 추가합니다.
           />
         )}
-        {!photo && <Bubble isCurrentUser={isCurrentUser}>{message}</Bubble>}{" "}
+        {!photo && <Bubble isCurrentUser={isCurrentUser} isGPTMessage={isGPTMessage}>{message}</Bubble>}{" "}
         {/* Only render the Bubble if no photo is provided */}
-        <Timestamp isCurrentUser={isCurrentUser}>{formattedTime}</Timestamp>
+        <Timestamp isCurrentUser={isCurrentUser} isGPTMessage={isGPTMessage}>{formattedTime}</Timestamp>
       </ChatBubble>
 
       {/* 이미지를 확대하여 보여주는 모달 */}
       {showModal && (
         <>
-            <ChatBubble isCurrentUser={isCurrentUser}>
-                <Username isCurrentUser={isCurrentUser}>{username}</Username>
-                
-                {photo && (
-                    <Photo
-                        src={photo}
-                        alt="Uploaded by user"
-                        onClick={handleShowModal} // 사진 클릭 이벤트 핸들러를 추가합니다.
-                    />
-                )}
-    
-                {!photo && <Bubble isCurrentUser={isCurrentUser}>
-                    {message}
-                    </Bubble>} {/* Only render the Bubble if no photo is provided */}
-                
-                <Timestamp isCurrentUser={isCurrentUser}>{formattedTime}</Timestamp>
-            </ChatBubble>
-    
-            {/* 이미지를 확대하여 보여주는 모달 */}
-            {showModal && (
-                <>
-                    <ImageModalBackground onClick={handleCloseModal} />
-                    <ImageModal>
-                        <img src={photo} alt="Zoomed user upload" style={{ width: '100%', height: 'auto' }} />
-                    </ImageModal>
-                </>
+          <ChatBubble isCurrentUser={isCurrentUser} isGPTMessage={isGPTMessage}>
+            <Username isCurrentUser={isCurrentUser} isGPTMessage={isGPTMessage}>{username}</Username>
+            {photo && (
+              <Photo
+                src={photo}
+                alt="Uploaded by user"
+                onClick={handleShowModal} // 사진 클릭 이벤트 핸들러를 추가합니다.
+              />
             )}
+            {!photo && <Bubble isCurrentUser={isCurrentUser} isGPTMessage={isGPTMessage}>{message}</Bubble>}{" "}
+            {/* Only render the Bubble if no photo is provided */}
+            <Timestamp isCurrentUser={isCurrentUser} isGPTMessage={isGPTMessage}>{formattedTime}</Timestamp>
+          </ChatBubble>
+
+          {/* 이미지를 확대하여 보여주는 모달 */}
+          {showModal && (
+            <>
+              <ImageModalBackground onClick={handleCloseModal} />
+              <ImageModal>
+                <img
+                  src={photo}
+                  alt="Zoomed user upload"
+                  style={{ width: "100%", height: "auto" }}
+                />
+              </ImageModal>
+            </>
+          )}
         </>
       )}
     </>

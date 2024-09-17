@@ -1,15 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import ChatRoomlistTimeline from "../components/chatroomslist-timeline";
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-const Background = styled.div`
-  background-image: url("/Cloud.svg");
-  background-size: cover;
-  width: 30%;
-  height: 100%;
-`;
-//
+import ChatAddForm from "../components/chatadd";
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -29,7 +22,7 @@ const TitleContainer = styled.div`
   font-family: "Gluten", cursive;
 `;
 
-const Chatlist = styled.div`
+const ChatAddDiv = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
@@ -37,39 +30,23 @@ const Chatlist = styled.div`
   left: 50%;
   transform: translate(-30%, -40%);
   width: 55%;
-  height: 70%;
+  height: 75%;
   flex-direction: column;
-`;
-
-const Createchat = styled.div`
-  display: flex; // flex 컨테이너로 설정
-  justify-content: flex-start; // 컨테이너의 시작 지점(상단)으로 정렬
-  align-items: flex-start; // 왼쪽 정렬(수평 방향)
-  color: black;
-  padding: 10px;
-  width: 100%;
-  height: 10%;
-  font-family: "Jalnan2TTF";
 `;
 const StyledLink = styled(Link)`
   text-decoration: none; // 밑줄 제거
   color: black; // 텍스트 색상 변경
 `;
 
-const ChatRooms = () => {
+const ChatAdd = () => {
   return (
     <>
-      <TitleContainer>MY</TitleContainer>
-      <Background />
-      <Chatlist>
-        <Createchat>
-          채팅방
-          <StyledLink to="/chatadd">+</StyledLink>
-        </Createchat>
-        <ChatRoomlistTimeline />
-      </Chatlist>
+      <TitleContainer>Talk</TitleContainer>
+      <ChatAddDiv>
+        <ChatAddForm />
+      </ChatAddDiv>
     </>
   );
 };
 
-export default ChatRooms;
+export default ChatAdd;

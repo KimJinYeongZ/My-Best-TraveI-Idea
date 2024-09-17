@@ -42,12 +42,12 @@ export default function Navigation() {
     return (
         <> 
         < MenuContainer > 
-            <StyledLink to="/">
+            <StyledLink to="/chatrooms">
                 <MenuItem>
                     My
                 </MenuItem>
             </StyledLink>
-            <StyledLink to="/">
+            <StyledLink to="/history">
                 <MenuItem>
                     Best
                 </MenuItem>
