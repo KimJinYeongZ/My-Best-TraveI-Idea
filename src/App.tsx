@@ -12,24 +12,26 @@ import { auth } from "./firebase";
 import { styled } from "styled-components";
 import ProtectedRoute from "./components/protected-route";
 import ChatRooms from "./routes/chatrooms";
-
+import ChatAdd from "./routes/chatadd";
 import Intro from "./routes/intro";
-
 import Survey from "./routes/survey";
+import History from "./routes/history";
+import Invite from "./routes/invite";
 import ChatroomsSurvey from "./routes/chatrooms-survey";
 // 폰트 추가
 import GmarketSansTTFBold from "./fonts/GmarketSansTTFBold.ttf";
 import GmarketSansTTFMedium from "./fonts/GmarketSansTTFMedium.ttf";
 import GmarketSansTTFLight from "./fonts/GmarketSansTTFLight.ttf";
 import Jalnan2TTF from "./fonts/Jalnan2TTF.ttf";
-import Layout from "./components/chatlayout";
-
+import React from 'react';
+import { ChatRoomProvider } from './components/ChatRoomContext';
+import { AccessTokenProvider } from "./components/TokenContext";
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <ProtectedRoute>
-        <Intro />
+        <Navigation />
       </ProtectedRoute>
     ),
     children: [
@@ -41,7 +43,29 @@ const router = createBrowserRouter([
         path: "profile",
         element: <Profile />,
       },
+      {
+        path: "chatadd",
+        element: <ChatAdd />,
+      },
+      {
+        path: "",
+        element: <Intro />,
+      },
+      {
+        path: "History",
+        element: <History />,
+      },
+
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  { path: "/create-account", element: <CreateAccount /> },
+  {
+    path: "",
+    element: <Home />,
   },
   {
     path: "/login",
@@ -61,16 +85,16 @@ const router = createBrowserRouter([
     element: <Chat />,
   },
   {
-    path: "chatrooms",
-    element: <ChatRooms />,
-  },
-  {
     path: "survey",
     element: <Survey />,
   },
   {
     path: "chatrooms-survey",
     element: <ChatroomsSurvey />,
+  },
+  {
+    path: "invite/:chatroomId",
+    element: <Invite />,
   },
 ]);
 
@@ -104,7 +128,9 @@ const GlobalStyles = createGlobalStyle`
   
   * {
     box-sizing: border-box;
+    
   }
+    
   body {
     background-color: white;
     color:white;
@@ -131,10 +157,14 @@ function App() {
     init();
   }, []);
   return (
-    <Wrapper>
-      <GlobalStyles />
-      {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
-    </Wrapper>
+    <AccessTokenProvider>
+    <ChatRoomProvider> {/* ChatRoomProvider 추가 */}
+      <Wrapper>
+        <GlobalStyles />
+        {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
+      </Wrapper>
+    </ChatRoomProvider>
+    </AccessTokenProvider>
   );
 }
 

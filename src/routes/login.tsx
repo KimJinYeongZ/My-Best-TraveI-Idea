@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
@@ -11,9 +11,9 @@ import {
   Title,
   Wrapper,
 } from "../components/auth-components";
-import GithubButton from "../components/github-btn";
 import styled from "styled-components";
-
+import axios from "axios";
+import { AccessTokenContext } from "../components/TokenContext";
 // MBTI 박스를 위한 스타일
 const MBTIBlock = styled.div`
   align-items: center;
@@ -38,7 +38,7 @@ const Background_left = styled.div`
 // 안내 문구
 const Explain = styled.div`
   color: black;
-  font-family: "GmarketSansTTFMedium";
+  font-family: "Jalnan2TTF";
   font-size: 30px;
   text-align: center;
   list-style: none;
@@ -89,14 +89,34 @@ export default function CreateAccount() {
       setPassword(value);
     }
   };
+
+  const { setAccessToken } = useContext(AccessTokenContext);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     if (isLoading || email === "" || password === "") return;
     try {
       setLoading(true);
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/survey");
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const response = await axios.post(
+        "http://44.218.133.175:8080/api/v1/members/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
+
+      console.log(
+        email + "의 토큰(로그인): " + response.data.data.token.accessToken
+      );
+      setAccessToken(response.data.data.token.accessToken);
+      localStorage.setItem("accessToken", response.data.data.token.accessToken); // 새로고침해도 토큰 저장
+      navigate("/chatrooms");
     } catch (e) {
       if (e instanceof FirebaseError) {
         setError(e.message);
@@ -123,7 +143,7 @@ export default function CreateAccount() {
             onChange={onChange}
             name="email"
             value={email}
-            placeholder="Email"
+            placeholder="이메일"
             type="email"
             required
           />
@@ -131,18 +151,16 @@ export default function CreateAccount() {
             onChange={onChange}
             value={password}
             name="password"
-            placeholder="Password"
+            placeholder="비밀번호"
             type="password"
             required
           />
-          <Input type="submit" value={isLoading ? "Loading..." : "Log in"} />
+          <Input type="submit" value={isLoading ? "로딩중..." : "로그인"} />
         </Form>
         {error !== "" ? <Error>{error}</Error> : null}
         <Switcher>
-          Don't have an account?{" "}
-          <Link to="/create-account">Create one &rarr;</Link>
+          계정이 없으신가요? <Link to="/create-account">회원 가입 &rarr;</Link>
         </Switcher>
-        <GithubButton />
       </Divs>
     </Wrapper>
   );

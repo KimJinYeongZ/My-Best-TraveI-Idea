@@ -2,7 +2,6 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../firebase";
 import react, { useState } from "react";
-
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: row;

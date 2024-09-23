@@ -1,25 +1,12 @@
-import {
-  Firestore,
-  Timestamp,
-  Unsubscribe,
-  collection,
-  limit,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { db } from "../firebase";
 import axios from "axios";
-import ChatRoomID from "./chatroomslist-title";
-
-export interface ChatRoomID {
-  id: string;
-  userId: string;
+import ChatRoom from "./chatroomslist-title";
+import { AccessTokenContext } from "./TokenContext";
+export interface ChatRoom {
+  chatroomId: number;
   title: string;
-  status: string;
-  username: string;
+  chatroomStatus: string;
 }
 
 const Wrapper = styled.div`
@@ -29,7 +16,6 @@ const Wrapper = styled.div`
   height: 80%;
   width: 100%;
   overflow-x: hidden;
-  border: 1px solid black;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -37,52 +23,51 @@ const Wrapper = styled.div`
   /* Firefox */
   scrollbar-width: none;
 `;
-
+const exampleData1 = {
+  chatroomId: 1,
+  title: "완도 가자",
+  chatroomStatus: "참여하기",
+};
 export default function Chatroomlist() {
-  const [chatRoomId, setchatRoomId] = useState<ChatRoomID[]>([]);
-  useEffect(() => {
-    const token = localStorage.getItem("userToken"); // 예시: 로컬 스토리지에서 토큰 가져오기
+  const [chatRooms, setChatRooms] = useState<ChatRoom[]>([]);
+  //const { accessToken } = useContext(AccessTokenContext);
+  const accessToken = localStorage.getItem("accessToken"); // 로컬 스토리지에서 액세스토큰 불러오기
+  console.log("현재 토큰(챗룸타임라인): " + accessToken);
 
-    // 토큰이 없다면 추가 작업을 하지 않고 함수를 종료
-    if (!token) {
+  useEffect(() => {
+    if (!accessToken) {
       console.log("No token found");
       return;
     }
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
+
     axios
-      .get("", config)
+      .get("http://44.218.133.175:8080/api/v1/chatrooms", config)
       .then((res) => {
-        setchatRoomId(res.data);
+        if (Array.isArray(res.data.data.chatRoomInfos)) {
+          setChatRooms(res.data.data.chatRoomInfos);
+        } else {
+          console.log("Data is not an array:", res.data.data.chatRoomInfos);
+          localStorage.setItem(
+            "accessTitle",
+            res.data.data.chatRoomInfos.title
+          ); // 채팅방 제목 저장
+          // 적절한 오류 처리 로직을 추가하세요.
+        }
       })
       .catch((err) => {
-        console.log(err);
+        console.log("에러" + err);
       });
-  }, []);
-  const exampleData = {
-    id: "1",
-    userId: "user123",
-    title: "Chat Room Title",
-    status: "Active",
-    username: "exampleUser",
-  };
-  const exampleData2 = {
-    id: "2",
-    userId: "user123",
-    title: "Chat Room Titless",
-    status: "Activess",
-    username: "exampleUser",
-  };
+  }, [accessToken]);
 
   return (
     <Wrapper>
-      <ChatRoomID {...exampleData} />
-      <ChatRoomID {...exampleData2} />
-      {chatRoomId.map((chatroom) => (
-        <ChatRoomID key={chatroom.id} {...chatroom} />
+      {chatRooms.map((chatroom) => (
+        <ChatRoom key={chatroom.chatroomId} {...chatroom} />
       ))}
     </Wrapper>
   );

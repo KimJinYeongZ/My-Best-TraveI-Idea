@@ -3,7 +3,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { auth, db, storage } from "../firebase";
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-
+import { ChatRoomContext } from "./ChatRoomContext";
+import { useContext } from "react";
 // 파일 아이콘 + 전송 아이콘 컨테이너 css
 const Form = styled.form`
   display: flex;
@@ -127,6 +128,8 @@ export default function SendMessageForm() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null); // 이미지 미리보기를 위한 상태 변수
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 표시 상태 변수
+  const { chatRoomId } = useContext(ChatRoomContext);
+
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
   };
@@ -159,6 +162,7 @@ export default function SendMessageForm() {
         userId: user?.uid,
         time: new Date(),
         type: "image",
+        chatRoomId: chatRoomId,
       });
 
       if (file) {
@@ -207,6 +211,7 @@ export default function SendMessageForm() {
         userId: user?.uid,
         time: new Date(),
         type: "text",
+        chatRoomId: chatRoomId,
       });
       if (file) {
         const locationRef = ref(storage, `messages/${user?.uid}/${doc.id}`);

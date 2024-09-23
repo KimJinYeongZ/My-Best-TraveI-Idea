@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBHE9MrDjpC8GyxSftz0z4pMg9IK8s2N24",
-  authDomain: "nwitter-reloaded-608b3.firebaseapp.com",
-  projectId: "nwitter-reloaded-608b3",
-  storageBucket: "nwitter-reloaded-608b3.appspot.com",
-  messagingSenderId: "639801343641",
-  appId: "1:639801343641:web:146f2672f748ef75844208",
+  apiKey: "AIzaSyBzC6LQLQgzhBKMazsn46Wj2gIm8YZ3ZKA",
+  authDomain: "nwitter-reloaded-683ef.firebaseapp.com",
+  projectId: "nwitter-reloaded-683ef",
+  storageBucket: "nwitter-reloaded-683ef.appspot.com",
+  messagingSenderId: "977003029287",
+  appId: "1:977003029287:web:418eedb01178948ce27f02"
 };
 
 const app = initializeApp(firebaseConfig);

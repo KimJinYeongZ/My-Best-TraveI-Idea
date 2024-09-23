@@ -11,12 +11,14 @@ export const Wrapper = styled.div`
 
 // 제목 css - 제목 내용은 없는듯
 export const Title = styled.h1`
+  color: black;
+  font-family: "Jalnan2TTF";
   font-size: 42px;
 `;
 
 // 이메일 패스워드
 export const Form = styled.form`
-  margin-top: 50px;
+  //margin-top: 50px;
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
@@ -27,6 +29,7 @@ export const Form = styled.form`
 
 // 이메일 패스워드 로그인 폰트
 export const Input = styled.input`
+  font-family: "Jalnan2TTF";
   padding: 10px 20px;
   border-radius: 50px;
   border: none;
@@ -46,6 +49,8 @@ export const Error = styled.span`
 `;
 
 export const Switcher = styled.span`
+  font-family: "Jalnan2TTF";
+  color: black;
   margin-top: 20px;
   a {
     color: #1d9bf0;
